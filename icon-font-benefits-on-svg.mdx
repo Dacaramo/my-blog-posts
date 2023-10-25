@@ -1,0 +1,72 @@
+# How to make svg icons adquire the benefits of icon fonts
+
+9 over 10 developers choose easy to use icon providers such as Font Awesome in order to get icons for their apps. That's because by doing that, you don't even need to manually download svg files in order to display the icons, instead you have a handful of quick and easy alternatives in order to include icons in your apps.
+
+You know that all of the icons provided by Font Awesome, Google Fonts and those kind of providers are font based icons?
+
+This kind of icons have the advantage of inherit font and text css props from it's parent element in order to define it's styles. Knowing this, developers are able to just define the style of the parent element and have the icon aquire those styles. This is really useful when you want to make buttons containing both text and icons that describe the action that the element triggers.
+
+> For all of the code examples used in this tutorial I'm using _React_ and Tailwind CSS so I can show to you both mark up and styles on the same code block.
+
+```TSX
+<button className='text-[25px] hover:text-[50px] text-green-500 hover:text-red-500'>
+  Hello
+  <FontAwesomeIcon icon={faHand}>
+</button>
+```
+
+Our icon is the FontAwesomeIcon component. Note that the icon contains a single prop that tells wich kind of icon do you want, but it does not have a size or a color setted.
+
+- The `'text-[25px]'` class will set both the text and icon size to 25 pixels.
+- The `'hover:text-[50px]'` class will change both the text and icon it's size from 25 to 50 pixels when the user is hovering the cursor on top of the button pixels.
+- The `'text-green-500'` class will make both the text and the icon green.
+- The `'hover:text-red-500'` class will make both the text and the icon change it's color from green to red when the user is hovering the cursor on top of the button.
+
+Ok, so that it's going to work, but what happens if you have a traditional icon, and not a font based icon?
+
+```TSX
+<button className='text-[50px] text-green-500 hover:text-red-500'>
+  Hello
+  <svg
+    xmlns='http://www.w3.org/2000/svg'
+    viewBox='0 0 114 85'
+    fill='blue'
+    stroke='blue'
+    strokeWidth={5}
+  >
+    <path
+      d='M22.956 4.423A13.279 13.279 0 0 0 13.494.5C6.117.5.114 6.503.114 13.88c0 2.254-1.591.277-.784.277-1.453.193-1.591-.078-.151-.301-.235-.633-.398Z'
+    />
+  </svg>
+</button>
+```
+
+- The _color_ of the icon is setted by the `fill` prop setted to `'blue'`.
+- The _stroke color_ of the icon is setted by the `stroke` prop setted to `'blue'`.
+- The _stroke width_ of the icon is setted by the `strokeWidth` prop setted to `5`.
+
+In this scenario, because we have a svg icon and not an icon font, all of the classes setted to the button element will be applied to just the text, but not the icon. and That's not great, the icon will still be blue.
+
+In order to be able to set the color of an svg icon based on the text color of the parent element and set it's size based on the font size of the parent element we need to:
+
+- Set the value of both the `fill` and `stroke` props to `'currentColor'` inside the svg element.
+- Add both the `width` and the `height` prop to the svg element and set it's value to `'1em'`
+
+```TSX
+<button className='text-[50px] text-green-500 hover:text-red-500'>
+  Hello
+  <svg
+    xmlns='http://www.w3.org/2000/svg'
+    viewBox='0 0 114 85'
+    fill='currentColor'
+    stroke='currentColor'
+    strokeWidth={5}
+    width='1em'
+    height='1em'
+  >
+    <path
+      d='M25.092 70.534H56.92L65.07 85H.5l22.67-39.614L32.673 28.8l8.16 14.252-15.74 27.483Zm11.865-49.237 7.839-13.691 44.329 77.39H73.427l-36.47-63.698ZM49.15 0H64.83l48.67 85H97.802L49.152 0Z'
+    />
+  </svg>
+</button>
+```
