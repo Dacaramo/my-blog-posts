@@ -2,32 +2,35 @@
 title: 'How to make svg icons adquire the benefits of icon fonts'
 description: "Sometimes you just want to follow a single code implementation when styling icons, no matter if it's a custom svg icon or a third party library font based icon. Let's learn how to make every icon follow the styles specified on it's parent element"
 date: '2023-10-25'
+author: 'Daniel Ramírez',
+attributionLink: 'https://www.linkedin.com/in/daniel-ramírez-molina-6465a1211',
+topic: 'software'
 tags: ['icons', 'svgicons', 'iconfonts', 'html', 'css']
 ---
 
-# How to make svg icons adquire the benefits of icon fonts
+## The problem
 
-9 over 10 developers choose easy to use icon providers such as Font Awesome in order to get icons for their apps. That's because by doing that, you don't even need to manually download svg files in order to display the icons, instead you have a handful of quick and easy alternatives in order to include icons in your apps.
+9 over 10 developers choose easy to use icon providers such as **Font Awesome** or **Fontello** in order to get icons for their apps. That's because by doing that, you don't even need to manually download svg files in order to display the icons, instead you have a handful of quick and easy alternatives in order to include icons in your apps.
 
-You know that all of the icons provided by Font Awesome, Google Fonts and those kind of providers are font based icons (a.k.a. icon fonts)?
+You know that all of the icons provided by **Font Awesome**, **Google Fonts** and those kind of providers are font based icons (a.k.a. icon fonts)?
 
 This kind of icons have the advantage of inherit font and text css props from it's parent element in order to define it's styles. Knowing this, developers are able to just define the style of the parent element and have the icon aquire those styles. This is really useful when you want to make buttons containing both text and icons that describe the action that the element triggers.
 
-> For all of the code examples used in this tutorial I'm using _React_ and Tailwind CSS so I can show to you both mark up and styles on the same code block.
+> For all of the code examples used in this tutorial I'm using **React** and **Tailwind CSS** so I can show to you both mark up and styles on the same code block.
 
 ```TSX
 <button className='text-[25px] hover:text-[50px] text-green-500 hover:text-red-500'>
   Hello
-  <FontAwesomeIcon icon={faHand}>
+  <FontAwesomeIcon icon={faHand} />
 </button>
 ```
 
 Our icon is the FontAwesomeIcon component. Note that the icon contains a single prop that tells wich kind of icon do you want, but it does not have a size or a color setted.
 
-- The `'text-[25px]'` class will set both the text and icon size to 25 pixels.
-- The `'hover:text-[50px]'` class will change both the text and icon it's size from 25 to 50 pixels when the user is hovering the cursor on top of the button pixels.
-- The `'text-green-500'` class will make both the text and the icon green.
-- The `'hover:text-red-500'` class will make both the text and the icon change it's color from green to red when the user is hovering the cursor on top of the button.
+- The `text-[25px]` class will set both the text and icon size to 25 pixels.
+- The `hover:text-[50px]` class will change both the text and icon it's size from 25 to 50 pixels when the user is hovering the cursor on top of the button pixels.
+- The `text-green-500` class will make both the text and the icon green.
+- The `hover:text-red-500` class will make both the text and the icon change it's color from green to red when the user is hovering the cursor on top of the button.
 
 Ok, so that it's going to work, but what happens if you have a traditional icon, and not a font based icon?
 
@@ -48,11 +51,13 @@ Ok, so that it's going to work, but what happens if you have a traditional icon,
 </button>
 ```
 
-- The _color_ of the icon is setted by the `fill` prop setted to `'blue'`.
-- The _stroke color_ of the icon is setted by the `stroke` prop setted to `'blue'`.
-- The _stroke width_ of the icon is setted by the `strokeWidth` prop setted to `5`.
+- The **color** of the icon is setted by the `fill` prop setted to `'blue'`.
+- The **stroke color** of the icon is setted by the `stroke` prop setted to `'blue'`.
+- The **stroke width** of the icon is setted by the `strokeWidth` prop setted to `5`.
 
 In this scenario, because we have a svg icon and not an icon font, all of the classes setted to the button element will be applied to just the text, but not the icon. and That's not great, the icon will still be blue.
+
+## The solution
 
 In order to be able to set the color of an svg icon based on the text color of the parent element and set it's size based on the font size of the parent element we need to:
 
