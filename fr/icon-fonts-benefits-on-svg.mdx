@@ -1,0 +1,85 @@
+---
+title: 'Comment faire en sorte que les icônes svg bénéficient des avantages des icon fonts'
+description: "Parfois, vous voulez simplement suivre une seule implémentation de code lors de la stylisation des icônes, que ce soit une icône svg personnalisée ou une icône basée sur une police de caractères d'une bibliothèque tierce. Apprenons comment faire en sorte que chaque icône suive les styles spécifiés sur son élément parent, quel que soit le type d'icône."
+date: '2023-10-25'
+author: 'Daniel Ramírez'
+attributionLink: 'https://www.linkedin.com/in/daniel-ramírez-molina-6465a1211'
+coverImageSrc: 'https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/icon-fonts-benefits-on-svg-cover.jpg'
+topic: 'software'
+tags: ['icons', 'svgicons', 'iconfonts', 'html', 'css']
+---
+
+## Le problème
+
+9 développeurs sur 10 choisissent des fournisseurs d'icônes faciles à utiliser tels que **Font Awesome** ou **Fontello** pour obtenir des icônes pour leurs applications. Cela s'explique par le fait que, en agissant ainsi, vous n'avez même pas besoin de télécharger manuellement des fichiers svg pour afficher les icônes. Au lieu de cela, ces fournisseurs offrent plusieurs alternatives rapides et faciles pour inclure leurs icônes dans vos applications.
+
+Vous savez que tous les icônes fournis par **Font Awesome**, **Google Fonts** et ce type de fournisseurs sont des icônes basées sur des polices (alias icon fonts) ?
+
+Ce type d'icônes présente l'avantage d'hériter des propriétés CSS de la police et du texte de son élément parent pour définir ses styles. Sachant cela, les développeurs peuvent simplement définir le style de l'élément parent et faire en sorte que l'icône acquière ces styles. Cela est vraiment utile lorsque vous souhaitez créer des boutons contenant à la fois du texte et des icônes pour décrire l'action déclenchée par l'élément.
+
+> Pour tous les exemples de code utilisés dans ce tutoriel, j'utilise **React** et **Tailwind CSS** afin de vous montrer à la fois le markup et les styles dans le même bloc de code.
+
+```TSX
+<button className='text-[25px] hover:text-[50px] text-green-500 hover:text-red-500'>
+  Salut
+  <FontAwesomeIcon icon={faHand} />
+</button>
+```
+
+Notre icône est le composant FontAwesomeIcon. Notez que l'icône ne contient qu'une seule propriété qui indique le type d'icône que vous souhaitez, mais elle n'a pas de taille ou de couleur définie.
+
+- La classe `text-[25px]` définira à la fois la taille du texte et de l'icône à 25 pixels.
+- La classe `hover:text-[50px]` changera la taille du texte et de l'icône de 25 à 50 pixels lorsque l'utilisateur survole le bouton avec le curseur.
+- La classe `text-green-500` rendra à la fois le texte et l'icône en vert.
+- La classe `hover:text-red-500` fera passer à la fois le texte et l'icône de la couleur verte à la couleur rouge lorsque l'utilisateur survole le bouton avec le curseur.
+
+D'accord, donc cela va fonctionner, mais que se passe-t-il si vous avez une icône SVG et non une icône basée sur une police de caractères ?
+
+```TSX
+<button className='text-[50px] text-green-500 hover:text-red-500'>
+  Salut
+  <svg
+    xmlns='http://www.w3.org/2000/svg'
+    viewBox='0 0 114 85'
+    fill='blue'
+    stroke='blue'
+    strokeWidth={5}
+  >
+    <path
+      d='M22.956 4.423A13.279 13.279 0 0 0 13.494.5C6.117.5.114 6.503.114 13.88c0 2.254-1.591.277-.784.277-1.453.193-1.591-.078-.151-.301-.235-.633-.398Z'
+    />
+  </svg>
+</button>
+```
+
+    La **couleur** de l'icône est définie par la propriété `fill` définie sur `'blue'`.
+    La **couleur du trait** de l'icône est définie par la propriété `stroke` définie sur `'blue'`.
+    La **largeur du trait** de l'icône est définie par la propriété `strokeWidth` définie sur `5`.
+
+Dans ce scénario, puisque nous avons une icône svg et non une icône de police de caractères, toutes les classes définies sur l'élément du bouton seront appliquées uniquement au texte, mais pas à l'icône. Et cela n'est pas idéal, l'icône restera tout de même en bleu.
+
+## La solution
+
+Pour pouvoir définir la couleur d'une icône svg en fonction de la couleur du texte de l'élément parent et ajuster sa taille en fonction de la taille de police de l'élément parent, nous devons :
+
+- Définir la valeur des propriétés `fill` et `stroke` à `'currentColor'` à l'intérieur de l'élément SVG.
+- Ajouter à l'élément SVG les propriétés `width` et `height` et définir leur valeur à `'1em'`.
+
+```TSX
+<button className='text-[50px] text-green-500 hover:text-red-500'>
+  Salut
+  <svg
+    xmlns='http://www.w3.org/2000/svg'
+    viewBox='0 0 114 85'
+    fill='currentColor'
+    stroke='currentColor'
+    strokeWidth={5}
+    width='1em'
+    height='1em'
+  >
+    <path
+      d='M25.092 70.534H56.92L65.07 85H.5l22.67-39.614L32.673 28.8l8.16 14.252-15.74 27.483Zm11.865-49.237 7.839-13.691 44.329 77.39H73.427l-36.47-63.698ZM49.15 0H64.83l48.67 85H97.802L49.152 0Z'
+    />
+  </svg>
+</button>
+```

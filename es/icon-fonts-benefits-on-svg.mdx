@@ -1,0 +1,85 @@
+---
+title: 'Cómo hacer que los íconos svg adquieran los beneficios de los icon fonts'
+description: 'A veces, simplemente deseas seguir una única implementación de código al estilizar íconos, ya sea un ícono svg personalizado o un icon font de una biblioteca de terceros. Aprendamos cómo hacer que cada ícono siga los estilos especificados en su elemento padre, sin importar el tipo de ícono.'
+date: '2023-10-25'
+author: 'Daniel Ramírez'
+attributionLink: 'https://www.linkedin.com/in/daniel-ramírez-molina-6465a1211'
+coverImageSrc: 'https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/icon-fonts-benefits-on-svg-cover.jpg'
+topic: 'software'
+tags: ['icons', 'svgicons', 'iconfonts', 'html', 'css']
+---
+
+## El problema
+
+9 de cada 10 desarrolladores eligen proveedores de íconos fáciles de usar, como **Font Awesome** o **Fontello**, para obtener íconos para sus aplicaciones. Esto se debe a que al hacerlo, ni siquiera se necesita descargar manualmente archivos svg para mostrar los íconos, en su lugar, estos provedores ofrecen varias alternativas rápidas y sencillas para incluir íconos en las aplicaciones.
+
+¿Sabes que todos los íconos proporcionados por **Font Awesome**, **Google Fonts** y proveedores similares son íconos basados en fuentes (también conocidos como icon fonts)?
+
+Este tipo de íconos tienen la ventaja de heredar las propiedades de fuente y texto CSS de su elemento padre para definir sus estilos. Sabiendo esto, los desarrolladores pueden simplemente definir el estilo del elemento padre y hacer que el ícono adquiera esos estilos. Esto es realmente útil cuando quieres crear botones que contienen tanto texto como íconos que describen la acción que el elemento desencadena.
+
+> Para todos los ejemplos de código utilizados en este tutorial, estoy utilizando **React** y **Tailwind CSS** para que pueda mostrar tanto el marcado como los estilos en el mismo bloque de código.
+
+```TSX
+<button className='text-[25px] hover:text-[50px] text-green-500 hover:text-red-500'>
+  Hola
+  <FontAwesomeIcon icon={faHand} />
+</button>
+```
+
+Nuestro ícono es el componente FontAwesomeIcon. Ten en cuenta que el ícono contiene una única propiedad que indica qué tipo de ícono deseas, pero no tiene un tamaño ni un color establecido.
+
+- La clase `text-[25px]` establecerá tanto el tamaño del texto como del ícono en 25 píxeles.
+- La clase `hover:text-[50px]` cambiará tanto el tamaño del texto como del ícono de 25 a 50 píxeles cuando el usuario pase el cursor sobre el botón.
+- La clase `text-green-500` hará que tanto el texto como el ícono sean verdes.
+- La clase `hover:text-red-500` hará que tanto el texto como el ícono cambien su color de verde a rojo cuando el usuario pase el cursor sobre el botón.
+
+Bueno, eso funcionará, pero ¿qué sucede si tienes un ícono svg y no un ícono basado en fuente?
+
+```TSX
+<button className='text-[50px] text-green-500 hover:text-red-500'>
+  Hola
+  <svg
+    xmlns='http://www.w3.org/2000/svg'
+    viewBox='0 0 114 85'
+    fill='blue'
+    stroke='blue'
+    strokeWidth={5}
+  >
+    <path
+      d='M22.956 4.423A13.279 13.279 0 0 0 13.494.5C6.117.5.114 6.503.114 13.88c0 2.254-1.591.277-.784.277-1.453.193-1.591-.078-.151-.301-.235-.633-.398Z'
+    />
+  </svg>
+</button>
+```
+
+- El **color** del ícono se establece mediante la propiedad `fill` configurada en `'blue'`.
+- El **color del trazo** del ícono se establece mediante la propiedad `stroke` configurada en `'blue'`.
+- El **ancho del trazo** del ícono se establece mediante la propiedad `strokeWidth` configurada en `5`.
+
+En este escenario, debido a que tenemos un ícono svg y no un ícono basado en fuentes, todas las clases establecidas en el elemento del botón se aplicarán solo al texto, pero no al ícono. Y eso no es bueno, pues el ícono seguirá siendo azul.
+
+## La solución
+
+Para poder establecer el color de un ícono svg según el color de texto del elemento padre y ajustar su tamaño según el tamaño de fuente del elemento padre, necesitamos:
+
+- Establecer el valor de ambas propiedades `fill` y `stroke` en `'currentColor'` dentro del elemento SVG.
+- Agregar tanto la propiedad `width` como la propiedad `height` al elemento SVG y establecer su valor en `'1em'`.
+
+```TSX
+<button className='text-[50px] text-green-500 hover:text-red-500'>
+  Hello
+  <svg
+    xmlns='http://www.w3.org/2000/svg'
+    viewBox='0 0 114 85'
+    fill='currentColor'
+    stroke='currentColor'
+    strokeWidth={5}
+    width='1em'
+    height='1em'
+  >
+    <path
+      d='M25.092 70.534H56.92L65.07 85H.5l22.67-39.614L32.673 28.8l8.16 14.252-15.74 27.483Zm11.865-49.237 7.839-13.691 44.329 77.39H73.427l-36.47-63.698ZM49.15 0H64.83l48.67 85H97.802L49.152 0Z'
+    />
+  </svg>
+</button>
+```
