@@ -1,16 +1,17 @@
 ---
 title: 'How to make svg icons adquire the benefits of icon fonts'
-description: "Sometimes you just want to follow a single code implementation when styling icons, no matter if it's a custom svg icon or a third party library font based icon. Let's learn how to make every icon follow the styles specified on it's parent element"
+description: "Sometimes you just want to follow a single code implementation when styling icons, no matter if it's a custom svg icon or a third party library font based icon. Let's learn how to make every icon follow the styles specified on it's parent element, regardless of the type of icon."
 date: '2023-10-25'
 author: 'Daniel Ramírez'
 attributionLink: 'https://www.linkedin.com/in/daniel-ramírez-molina-6465a1211'
+coverImageSrc: 'https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/icon-fonts-benefits-on-svg-cover.jpg'
 topic: 'software'
 tags: ['icons', 'svgicons', 'iconfonts', 'html', 'css']
 ---
 
 ## The problem
 
-9 over 10 developers choose easy to use icon providers such as **Font Awesome** or **Fontello** in order to get icons for their apps. That's because by doing that, you don't even need to manually download svg files in order to display the icons, instead you have a handful of quick and easy alternatives in order to include icons in your apps.
+9 over 10 developers choose easy to use icon providers such as **Font Awesome** or **Fontello** in order to get icons for their apps. That's because by doing that, you don't even need to manually download svg files in order to display the icons, instead, those providers offer a handful of quick and easy alternatives in order to include their icons in your apps.
 
 You know that all of the icons provided by **Font Awesome**, **Google Fonts** and those kind of providers are font based icons (a.k.a. icon fonts)?
 
@@ -32,7 +33,7 @@ Our icon is the FontAwesomeIcon component. Note that the icon contains a single 
 - The `text-green-500` class will make both the text and the icon green.
 - The `hover:text-red-500` class will make both the text and the icon change it's color from green to red when the user is hovering the cursor on top of the button.
 
-Ok, so that it's going to work, but what happens if you have a traditional icon, and not a font based icon?
+Ok, so that it's going to work, but what happens if you have a svg icon, and not a font based icon?
 
 ```TSX
 <button className='text-[50px] text-green-500 hover:text-red-500'>
