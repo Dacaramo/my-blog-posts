@@ -10,8 +10,6 @@ tags: ['icons', 'html', 'css', 'svg']
 
 ## The problem
 
-<YoutubeVideo videoId='e1cnkoX42GI' />
-
 9 over 10 developers choose easy to use icon providers such as **Font Awesome** or **Fontello** in order to get icons for their apps. That's because by doing that, you don't even need to manually download svg files in order to display the icons, instead, those providers offer a handful of quick and easy alternatives in order to include their icons in your apps.
 
 You know that all of the icons provided by **Font Awesome**, **Google Fonts** and those kind of providers are font based icons (a.k.a. icon fonts)?
@@ -60,11 +58,6 @@ Ok, so that it's going to work, but what happens if you have a svg icon, and not
 In this scenario, because we have a svg icon and not an icon font, all of the classes setted to the button element will be applied to just the text, but not the icon. and That's not great, the icon will still be blue.
 
 ## The solution
-
-<CustomImage
-  src='https://raw.githubusercontent.com/Dacaramo/my-blog-posts/master/images/icon-fonts-benefits-on-svg/test-image.png'
-  alt='A random image'
-/>
 
 In order to be able to set the color of an svg icon based on the text color of the parent element and set it's size based on the font size of the parent element we need to:
 
