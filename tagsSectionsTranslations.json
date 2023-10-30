@@ -1,0 +1,32 @@
+{
+  "Categories": {
+    "en": "Categories",
+    "es": "Categorías",
+    "fr": "Catégories"
+  },
+  "Languages, libraries and tools": {
+    "en": "Languages, libraries and tools",
+    "es": "Lenguajes, librerías y herramientas",
+    "fr": "Langages, bibliothèques et outils"
+  },
+  "Frontend": {
+    "en": "Frontend",
+    "es": "Frontend",
+    "fr": "Frontend"
+  },
+  "Backend": {
+    "en": "Backend",
+    "es": "Backend",
+    "fr": "Backend"
+  },
+  "Databases": {
+    "en": "Databases",
+    "es": "Bases de datos",
+    "fr": "Bases de données"
+  },
+  "Programming concepts": {
+    "en": "Programming concepts",
+    "es": "Conceptos de programación",
+    "fr": "Notions de programmation"
+  }
+}
