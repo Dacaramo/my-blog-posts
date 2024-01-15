@@ -1,6 +1,6 @@
 ---
 title: 'The ultimate Serverless Framework guide for AWS'
-description: "Just want to have a fully serverless backend running on serverless functions, but you don't want to manually create all of your cloud service provider resources manually? Don't worry, the Serverless Framework is here to rescue you."
+description: "Want to have a fully serverless backend running on serverless functions, but you don't want to manually create all of your cloud service provider resources manually? Don't worry, the Serverless Framework is here to rescue you."
 date: '2024-01-14'
 author: 'Daniel Ramírez'
 attributionLink: 'https://www.linkedin.com/in/daniel-ramírez-molina-6465a1211'
@@ -568,7 +568,7 @@ Now go to your AWS cli `config` file and insert an entry for that same user, but
 region=us-east-1
 ```
 
-> If you do not know where to find those credential files keep in mind that the `credentials` and `config` files are located at ~/.aws/ on Linux or macOS, or at C:\Users\ USERNAME \.aws\ on Windows. If you are not able to find them it may be because you haven't configured any credentials on your machine, so go and look for a tutorial online on how to configure credentials using the AWS CLI.
+> If you do not know where to find those credential files keep in mind that the `credentials` and `config` files are located at `~/.aws/` on Linux or macOS, or at `C:\Users\USERNAME\.aws\` on Windows. If you are not able to find them it may be because you haven't configured any credentials on your machine, so go and look for a tutorial online on how to configure credentials using the AWS CLI.
 
 Before starting a deployment you need to tell the Serverless Framework which profile of the ones you have on your `config` file is going to be used. Go to the `serverless.yml` file and add the `profile` prop with a value of `example-user`
 
