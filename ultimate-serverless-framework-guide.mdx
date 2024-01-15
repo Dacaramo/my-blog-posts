@@ -242,7 +242,7 @@ module.exports.handler = async (event) => {
 
 Now, let's rewrite the content of that AWS Lambda Function so it is now TypeScript code and it is ready to receive a POST request. For now let's say that the purpose of this AWS Lambda Function is to create an item on our DynamoDB Table. The item will be a product review, just like when you purchase a product on Amazon and leave a review, well that's what I'm talking about here.
 
-This function will be mapped to the (POST /products/{productId}/reviews) endpoint
+This function will be mapped to the (POST /products/\{productId\}/reviews) endpoint
 
 ```TypeScript
 import {
