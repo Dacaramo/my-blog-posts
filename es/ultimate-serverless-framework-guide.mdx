@@ -1,0 +1,586 @@
+---
+title: 'La guía definitiva de Serverless Framework para AWS.'
+description: '¿Quieres tener un backend completamente serverless que funcione con serverless functions? Pero no quieres crear manualmente todos los recursos del proveedor de servicios en la nube? No te preocupes, Serverless Framework está aquí para salvarte.'
+date: '2024-01-14'
+author: 'Daniel Ramírez'
+attributionLink: 'https://www.linkedin.com/in/daniel-ramírez-molina-6465a1211'
+coverImageSrc: 'https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/icon-fonts-benefits-on-svg/cover.jpg'
+tags:
+  [
+    'serverless',
+    'deployment',
+    'backend',
+    'webdevelopment',
+    'lambdafunctions',
+    'api',
+    'aws',
+    'typescript',
+  ]
+---
+
+## Table of contents
+
+- [¿Qué es Serverless Framework?](#que-es-serverless-framework)
+- [Ventajas de Serverless Framework](#ventajas-de-serverless-framework)
+- [Algunos términos relevantes de Serverless Framework](#algunos-terminos-relevantes-de-serverless-framework)
+- [Instalar serverless](#instalar-serverless)
+- [Crear un servicio](#crear-un-servicio)
+- [Habilitar TypeScript e instalar otros módulos necesarios](#habilitar-typescript-e-instalar-otros-modulos-necesarios)
+- [Definir un esquema JSON para validar el request body de la solicitud](#definir-un-esquema-json-para-validar-el-request-body-de-la-solicitud)
+- [Almacenar secretos de forma remota y usarlos en tu código de forma gratuita](#almacenar-secretos-de-forma-remota-y-usarlos-en-tu-codigo-de-forma-gratuita)
+- [Desplegar tus serverless functions y otros recursos en la nube](#desplegar-tus-serverless-functions-y-otros-recursos-en-la-nube)
+  - [La forma recomendada](#la-forma-recomendada)
+  - [La forma no muy buena](#la-forma-no-muy-buena)
+
+## ¿Qué es Serverless Framework?
+
+Serverless Framework es una herramienta de línea de comandos (CLI) que se integra con tu proveedor de servicios en la nube favorito para automatizar la creación de tus recursos en la nube. Serverless funciona de manera excepcional con funciones sin servidor como las funciones de AWS Lambda, Google Cloud Functions y Azure Functions, pero también te permite crear y gestionar automáticamente cualquier tipo de recurso en la nube, no solo funciones sin servidor. Puedes permitir que Serverless administre tus tablas de AWS DynamoDB, tus buckets de AWS S3, y así sucesivamente.
+
+Ten en cuenta que toda la magia detrás del Marco sin servidor es simplemente infraestructura como código, y es muy probable que también puedas hacer lo que hace el Marco sin servidor con un servicio nativo de tu proveedor de servicios en la nube, como CloudFormation.
+
+La diferencia entre Serverless y esos servicios nativos de infraestructura como código es que Serverless es como 100 veces más fácil de entender y manejar que cosas como CloudFormation. CloudFormation es una herramienta diseñada para ser utilizada por personas realmente experimentadas.
+
+## Ventajas de Serverless Framework
+
+- Te permite crear todos los recursos en la nube para tu aplicación ejecutando un solo comando
+- Te permite mantener múltiples versiones para cada recurso que despliegas con él
+- Te permite mantener múltiples etapas o entornos para tus recursos
+- Si eres hackeado y todos tus recursos son eliminados, puedes recuperarlos ejecutando un solo comando
+- No necesitas crear tediosamente recursos manualmente en la consola de tu proveedor de servicios en la nube
+- La documentación es realmente excelente y fácil de entender
+- Si alguna vez te has preguntado cómo escribir tus funciones sin servidor de Node.js en TypeScript, usar el Serverless Framework es posiblemente la única y mejor manera de hacerlo
+- No generará un montón de código base y archivos extraños que nadie entiende, como hace AWS Amplify
+- Tiene más de 1000 plugins que te permitirán:
+  - Ejecutar tus funciones sin servidor y probar tu API localmente antes de implementarla
+  - Utilizar tu marco de backend preferido, como Express.js, para desarrollar todos tus puntos finales de API
+  - Generar automáticamente documentación OpenAPI de forma transparente para tu API
+  - Y mucho más
+- Eres libre de estructurar tu código, archivos y carpetas como desees en tu editor de código preferido
+
+## Algunos términos relevantes de Serverless Framework
+
+- **Organización**: Las organizaciones se crean en el panel de Serverless Framework. Una organización contiene una o más aplicaciones. **Debes especificar el nombre de la organización en tu archivo `serverless.yml` para vincular tu despliegue con el Serverless Dashboard**.
+- **Aplicación**: Las aplicaciones se crean en el panel de Serverless Framework. Una aplicación pertenece a una organización y contiene uno o más servicios. **Debes especificar el nombre de la aplicación en tu archivo `serverless.yml` para vincular tu despliegue con el Serverless Dashboard**.
+- **Servicio**: Un servicio es simplemente una sección de un proyecto de Serverless Framework que contiene todo el código de las funciones serverless y un archivo `serverless.yml`. Los servicios son una excelente manera de organizar tu código. La mayoría de las aplicaciones tienen un solo servicio, pero si tienes muchas serverless functions, se recomienda dividir tus functions y definiciones de recursos en varios servicios.
+- **Stage**: Un stage es simplemente un entorno. Se define un stage cuando despliegas tus recursos en la nube utilizando el comando `serverless deploy --stage <nombre-del-stage>`. Los stages más comunes en los equipos de desarrollo son `dev`, `staging` y `production`.
+
+> Vincular tus despliegues con el Serverless Dashboard tiene un puñado de ventajas, como habilitar la observabilidad de tus recursos y despliegues, y poder obtener secretos de tu panel y usarlos en tu archivo `serverless.yml` y tu código de funciones serverless.
+
+## Instalar serverless
+
+Instala globalmente el módulo de Node.js "serverless" en tu sistema utilizando npm ejecutando `npm install -g serverless`.
+
+## Crear un servicio
+
+Crea un servicio corriendo el comando `serverless`
+
+Después de ejecutar el comando, se te pedirá que respondas algunas preguntas para personalizar tu plantilla inicial:
+
+Elige la plantilla **AWS - Node.js - Starter**.
+
+<CustomImage
+  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/definitive-serverless-framework/chooseStarterTemplate.png'
+  alt='Selecciona la plantilla AWS - Node.js - Starter'
+/>
+
+Elige un nombre de servicio para tu aplicación, vamos a elegir **ramzeis-store**
+
+<CustomImage
+  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/definitive-serverless-framework/chooseServiceName.png'
+  alt='Elige un nombre de servicio para tu aplicación'
+/>
+
+Si actualmente has iniciado sesión con tu cuenta de Serverless Dashboard, es posible que se te haga la pregunta que se muestra en la imagen a continuación. Selecciona [Skip], aquí te enseñaré cómo vincular **MANUALMENTE** tu cuenta de Serverless Dashboard con tus implementaciones para que, si alguna vez te pierdes, sepas cómo avanzar.
+
+Si es la primera vez que usas el Marco sin servidor (Serverless Framework) y no has iniciado sesión, entonces el flujo te pedirá que inicies sesión o te registres para obtener una cuenta en el Serverless Dashboard. Si este es el caso, no te registres ni inicies sesión.
+
+<CustomImage
+  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/definitive-serverless-framework/linkServiceToOrg.png'
+  alt='No vincules tu servicio a una organización, elige omitir'
+/>
+
+No despliegues ahora.
+
+<CustomImage
+  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/definitive-serverless-framework/chooseToDeployNow.png'
+  alt='No despliegues ahora'
+/>
+
+Después de completar todo el proceso, obtendrás una estructura de archivos que se ve así:
+
+<CustomImage
+  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/definitive-serverless-framework/fileStructure.png'
+  alt='Estructura de archivos'
+/>
+
+Y el contenido de tu archivo `serverless.yml` se verá así:
+
+```yaml
+service: ramzeis-store
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+
+functions:
+  function1:
+    handler: index.handler
+```
+
+Ten en cuenta que el archivo `index.js` contiene el código fuente de la única Función de AWS Lambda que existe en tu servicio por ahora. En el archivo `serverless.yml`, siempre debes definir dónde se encuentran todos los manejadores de tus funciones de AWS Lambda.
+
+En el archivo `serverless.yml`, cambia el nombre de tu única Función de AWS Lambda de `function1` a `create-review`.
+
+Crea una carpeta al mismo nivel que tu archivo `serverless.yml` y llámala `createReview`.
+
+Coge tu archivo `index.js` y colócalo dentro de la carpeta `createReview`.
+
+Cambia el nombre del archivo `index.js` a `createReview.js`.
+
+En el archivo `serverless.yml`, cambia el valor de `functions.create-review`.handler de `index.handler` a `createReview/createReview.handler`. Esa es la nueva ubicación del manejador de tu única Función de AWS Lambda.
+
+El contenido de tu archivo debe parecerse a esto:
+
+```yml
+service: ramzeis-store
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+
+functions:
+  create-review:
+    handler: createReview/createReview.handler
+```
+
+## Habilitar TypeScript e instalar otros módulos necesarios
+
+Deshazte de ese desagradable código JavaScript y comencemos a usar TypeScript.
+
+Obtén tu archivo `package.json` ejecutando `npm init`.
+
+Instala los siguientes módulos de Node.js como dependencias de desarrollo ejecutando `npm i -D esbuild typescript serverless-esbuild serverless-iam-roles-per-function serverless-offline`
+
+- esbuild
+- typescript
+- serverless-esbuild
+- serverless-iam-roles-per-function
+- serverless-offline
+
+Actualiza tu archivo `serverless.yml` para:
+
+- Informar a Serverless Framework que vas a usar el plugin `serverless-esbuild` y los otros plugins.
+- Informar al plugin `serverless-esbuild `que deseas que el código fuente de tus funciones se minimice y se empaque en un bundle.
+
+> **Los complementos `serverless-iam-roles-per-function` y `serverless-offline` son necesarios para algo diferente que simplemente hacer que TypeScript funcione, pero los instalaremos ahora y hablaremos de ello más adelante**.
+
+El archivo debe parecerse a esto:
+
+```yaml
+service: ramzeis-store
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+
+# Add this below
+plugins:
+  - 'serverless-esbuild'
+  - 'serverless-offline'
+  - 'serverless-iam-roles-per-function'
+
+custom:
+  esbuild:
+    bundle: true
+    minify: true
+# Add this above
+
+functions:
+  create-review:
+    handler: createReview/createReview.handler
+```
+
+Crea un archivo `tsconfig.json` para configurar TypeScript según tus preferencias. El archivo podría parecerse a algo como esto:
+
+```json
+{
+  "compilerOptions": {
+    "strict": true,
+    "preserveConstEnums": true,
+    "strictNullChecks": true,
+    "sourceMap": true,
+    "allowJs": true,
+    "target": "es5",
+    "outDir": ".build",
+    "moduleResolution": "node",
+    "lib": ["es2015"],
+    "rootDir": "./"
+  }
+}
+```
+
+En este punto, el código de tu Lambda Function `createReview.js` debe parecerse a esto:
+
+```JavaScript
+module.exports.handler = async (event) => {
+  return {
+    statusCode: 200,
+    body: JSON.stringify(
+      {
+        message: 'Go Serverless v3.0! Your function executed successfully!',
+        input: event,
+      },
+      null,
+      2
+    ),
+  };
+};
+```
+
+Ahora, reescribamos el contenido de esa Función Lambda de AWS para que ahora sea código TypeScript y esté lista para recibir una solicitud POST. Por ahora, digamos que el propósito de esta Función Lambda de AWS es crear un elemento en nuestra tabla DynamoDB. El elemento será una reseña de un producto, similar a cuando compras un producto en Amazon y dejas una reseña, bueno, de eso estoy hablando aquí.
+
+Esta función se asignará al endpoint (POST /productos/{productId}/reseñas)
+
+```TypeScript
+import {
+  APIGatewayProxyHandler,
+  APIGatewayProxyEvent,
+  APIGatewayProxyResult,
+} from 'aws-lambda';
+import * as crypto from 'crypto';
+
+export const handler: APIGatewayProxyHandler = async (
+  event: APIGatewayProxyEvent
+): Promise<APIGatewayProxyResult> => {
+  try {
+    const productId = event.pathParameters?.productId;
+    const tableName = process.env.DYNAMODB_MAIN_TABLE_NAME;
+    const requestBody = JSON.parse(event.body!);
+
+    const item = {
+      pk: productId,
+      sk: `review|${crypto.randomUUID()}`,
+      ...requestBody,
+    };
+
+    const command = new PutCommand({
+      TableName: tableName,
+      Item: item,
+    });
+
+    const ddbClient = new DynamoDBClient({
+      region: 'us-east-1',
+    });
+
+    const ddbDocClient = DynamoDBDocumentClient.from(ddbClient);
+
+    await ddbDocClient.send(command);
+
+    return {
+      statusCode: 201,
+      body: JSON.stringify({
+        msg: 'The Review was created successfully',
+      }),
+    };
+  } catch (error) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify(error),
+    };
+  }
+};
+```
+
+Después de revisar el código, hay 3 cosas realmente importantes que debes tener en cuenta:
+
+- Para crear una reseña, se necesita el **productId** del producto al que corresponde esta reseña. Ese **productId** se recibirá como un parámetro de ruta por esta función.
+- Para colocar el elemento de reseña en la tabla, necesitas el nombre de la tabla de DynamoDB donde se va a insertar el elemento. El nombre de la tabla en el código anterior proviene de una variable de entorno que debe definirse en el `serverless.yml`.
+- Para poder utilizar el PutCommand y colocar el elemento de reseña en la tabla de DynamoDB, la Función Lambda de AWS necesita permisos (AWS IAM Role) para interactuar con esa tabla en particular.
+
+Configura esas últimas 3 cosas en el `serverless.yml`.
+
+```yaml
+service: ramzeis-store
+frameworkVersion: '3'
+
+# Aquí puedes definir parámetros que se pueden utilizar en cualquier lugar de tu archivo serverless.yml. Si especificas el mismo parámetro para diferentes etapas, ese parámetro tendrá un valor diferente según la etapa. Aquí tenemos los 3 ARN para nuestras 3 tablas (una por cada etapa).
+params:
+  dev:
+    dynamo-db-main-table-arn: 'arn:aws:dynamodb:us-east-2:444172228005:table/store-dev-main-table'
+  stag:
+    dynamo-db-main-table-arn: 'arn:aws:dynamodb:us-east-2:444172228005:table/store-stag-main-table'
+  prod:
+    dynamo-db-main-table-arn: 'arn:aws:dynamodb:us-east-2:444172228005:table/store-prod-main-table'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  # Define todas tus variables de entorno a continuación para poder usarlas en el código de tus funciones sin servidor.
+  environment:
+    # Obtén la etapa actual con ${sls:stage} (dev, stag o prod) y úsala en esa cadena. Debes tener 3 tablas DynamoDB creadas en AWS (una por etapa): store-dev-main-table, store-stag-main-table y store-prod-main-table
+    DYNAMODB_MAIN_TABLE_NAME: 'store-${sls:stage}-main-table'
+
+plugins:
+  - 'serverless-esbuild'
+  - 'serverless-offline'
+  - 'serverless-iam-roles-per-function' # Este complemento permite otorgar declaraciones de roles IAM a cada función individual, para que la Función Lambda de AWS esté autorizada
+
+custom:
+  esbuild:
+    bundle: true
+    minify: true
+
+functions:
+  create-review:
+    handler: createReview/createReview.handler
+    # Define los eventos que activarán esta función.
+    events:
+      # http se utiliza para asignar la Función Lambda de AWS a un punto de conexión de la API Gateway de AWS. Esta función se activará cuando el servicio de AWS API Gateway reciba una solicitud (POST /products/{productId}/reviews)
+      - http:
+          method: POST
+          path: '/products/{productId}/reviews'
+          request:
+            # Define la ubicación del archivo de esquema utilizado para validar el cuerpo de la solicitud recibida por esta función
+            schemas:
+              application/json: ${file(createReview/createReview.schema.json)}
+            # Define tanto los parámetros de cadena de consulta como los parámetros de ruta
+            parameters:
+              paths:
+                # Para esta solicitud solo tenemos 1 parámetro de ruta. Si el valor es true, entonces el parámetro es obligatorio, false para no obligatorio
+                productId: true
+          # Habilita cors y define los orígenes que pueden interactuar con tu Función Lambda de AWS
+          cors:
+            origins:
+              - 'https://example1.com'
+              - 'https://example2.com'
+              - 'https://example3.com'
+    # Define en forma de declaraciones IAM de AWS las acciones que esta Función Lambda de AWS está autorizada a realizar en los recursos especificados
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - 'dynamodb:PutItem'
+        # Aquí estás accediendo al valor del parámetro dynamo-db-main-table-arn
+        Resource: ${param:dynamo-db-main-table-arn}
+```
+
+## Definir un esquema JSON para validar el request body de la solicitud
+
+El Framework Serverless y AWS API Gateway te permiten especificar esquemas JSON para validar el cuerpo de la solicitud de las solicitudes POST. **Ten en cuenta que solo puedes hacer esto para las solicitudes POST**.
+
+Como has visto en la sección anterior, el valor de la propiedad schemas.application/json se estableció en `${file(createReview/createReview.schema.json)}`. Esto significa que necesitamos crear un archivo JSON con ese nombre en esa ubicación:
+
+```json
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 2000
+    },
+    "score": {
+      "type": "number",
+      "minimum": 1,
+      "maximum": 5
+    },
+    "date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "images": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1,
+      "maxItems": 5
+    },
+    "reviewerEmail": {
+      "type": "string",
+      "format": "email"
+    }
+  },
+  "required": ["title", "description", "score", "date", "reviewerEmail"]
+}
+```
+
+Ahora, cada vez que envíen una solicitud a este punto de conexión con un cuerpo de solicitud que no cumpla con los requisitos definidos por ti en el esquema, AWS API Gateway responderá con un error al cliente. Esto es realmente útil, ya que reducirá la cantidad de código que necesitas escribir dentro del cuerpo de tu función sin servidor. Además, esto evitará la invocación de la función, por lo que ahorrarás dinero en invocaciones que de todos modos devolverán un error.
+
+> Es súper importante tener en cuenta que el esquema JSON debe ser un [esquema JSON de la versión draft-04](https://json-schema.org/draft-04/schema)
+
+## Almacenar secretos de forma remota y usarlos en tu código de forma gratuita
+
+Ve al [sitio web de Serverless Framework](https://www.serverless.com/) Serverless Dashboard y regístrate para obtener una cuenta en el Serverless Dashboard.
+
+Una vez que hayas creado tu cuenta, ve a la esquina inferior izquierda, haz clic en tu foto de perfil y crea una organización, ¡llamémosla **ramzeis**!
+
+<CustomImage
+  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/definitive-serverless-framework/createOrg.png'
+  alt='Crear una organización'
+/>
+
+Ahora crea una aplicación estando en la organización que acabas de crear, ¡llamémosla **ramzeis-store**!
+
+<CustomImage
+  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/definitive-serverless-framework/createApplication.png'
+  alt='Crear una aplicación'
+/>
+
+Ahora crea un servicio dentro de la aplicación que acabas de crear, ¡llamémoslo **ramzeis-store**!
+
+<CustomImage
+  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/definitive-serverless-framework/createService.png'
+  alt='Crear un servicio'
+/>
+
+Ahora crea tantas etapas como tengas en tu archivo `serverless.yml`. En nuestro caso, tenemos 3: dev, stag y prod, creémoslas con los nombres exactos.
+
+<CustomImage
+  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/definitive-serverless-framework/createStage.png'
+  alt='Crear las 3 etapas'
+/>
+
+Ahora creemos todos los secretos que necesitas en el dashboard. Un secreto en el dashboard sin servidor es simplemente un parámetro sin servidor, al igual que los que hemos definido en la sección params del archivo `serverless.yml` y extraído usando `${param:nombre-del-parámetro}` en la última parte de [la sección anterior](#habilitar-typescript-e-instalar-otros-modulos-necesarios). Como acabas de leer, esos parámetros también se pueden extraer del Serverless Dashboard a tu archivo `serverless.yml` y posteriormente a tu código asignándolos a variables de entorno.
+
+Estos parámetros se tratan como secretos porque solo se inyectan en tu código en el momento del despliegue y ni siquiera serán visibles en el editor de código de AWS Lambda.
+
+**Ten en cuenta que, como dije, estos secretos se inyectan en el momento del despliegue, así que no puedes simplemente cambiar estos valores en el dashboard y esperar que cambien en tus funciones ya desplegadas. Después de cambiar su valor en el dashboard, si deseas que estos cambios surtan efecto en las funciones, debes volver a desplegar todas las funciones que usan estos secretos.**
+
+Si deseas extraer secretos en tiempo de ejecución y no en el momento del despliegue, siéntete libre de usar [AWS Secrets Manager](https://aws.amazon.com/secrets-manager/), pero no es gratuito.
+
+Para crear los secretos en tu dashboard, tienes 2 opciones:
+
+- Crear los secretos a nivel de servicio (tendrán el mismo valor para todas las etapas).
+- Crear los secretos a nivel de stage (tendrán valores diferentes según el stage).
+
+Para crear secretos a nivel de servicio, debes ir a la configuración del servicio
+
+<CustomImage
+  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/definitive-serverless-framework/serviceSettings.png'
+  alt='Ir a la configuración del servicio'
+/>
+
+Ve a la pestaña Parameters y asigna un nombre y un valor para el secreto. Aquí crearemos el secreto `random-api-key`:
+
+<CustomImage
+  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/definitive-serverless-framework/addServiceLevelSecret.png'
+  alt='Ve a la pestaña Parameters, asigna nombre y valor y haz clic en agregar'
+/>
+
+Para crear secretos a nivel de etapa, debes hacer clic en la etapa donde deseas crear el secreto (no en los tres puntos, sino en el nombre real de la etapa), ve a la pestaña Parameters y allí harás lo mismo que se explicó anteriormente. No crearemos secretos a nivel de etapa en este tutorial.
+
+Para usar este secreto en tu archivo `serverless.yml`, debes asignarlo a una variable de entorno:
+
+```yaml
+#...
+provider:
+  name: aws
+  runtime: nodejs18.x
+  environment:
+    DYNAMODB_MAIN_TABLE_NAME: 'store-${sls:stage}-main-table'
+    # Usa el mismo nombre que está en el dashboard
+    RANDOM_API_KEY: '${param:random-api-key}'
+#...
+```
+
+Una vez que hayas definido esa variable de entorno en tu archivo `serverless.yml`, ve al código de tu función de AWS Lambda y para acceder a esa variable de entorno solo necesitas usar `process.env.RANDOM_API_KEY`.
+
+**Ten en cuenta que solo puedes extraer secretos y parámetros del dashboard sin servidor si eliges [La forma recomendada de despliegue](#la-forma-recomendada). Si despliegas de cualquier otra manera, deberás almacenar tus secretos en almacenes como [AWS Secrets Manager](https://aws.amazon.com/secrets-manager/)**
+
+## Desplegar tus serverless functions y otros recursos en la nube
+
+Antes de continuar y elegir el método de implementación, agrega los siguientes comandos de script a tu package.json:
+
+```json
+{
+  "scripts": {
+    "deploy-all-dev": "serverless --stage dev deploy",
+    "deploy-all-stag": "serverless --stage stag deploy",
+    "deploy-all-prod": "serverless --stage prod deploy"
+  }
+}
+```
+
+Estos comandos te permitirán desplegar una vez que hayas completado lo que viene.
+
+### La forma recomendada
+
+Primero, necesitas crear un proveedor en tu Serverless Dashboard. Haz clic en los tres puntos a la derecha de tu servicio y selecciona "settings".
+
+<CustomImage
+  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/definitive-serverless-framework/serviceSettings.png'
+  alt='Ir a la configuración del servicio'
+/>
+
+En la pestaña Providers, haz clic en "add" y elige la opción simple. No especifiques un nombre, marca la casilla "Make this my new default provider" y haz clic en "Connect AWS provider".
+
+<CustomImage
+  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/definitive-serverless-framework/addProvider.png'
+  alt='Ir a la pestaña Parámetros y hacer clic en agregar'
+/>
+
+Esto te solicitará acceso a tu cuenta de AWS en el navegador y aceptar la creación de un rol de IAM con acceso de administrador. Por favor, acepta la creación de este rol y estarás listo para continuar.
+
+Ahora, ve al archivo `serverless.yml` y agrega la organización y el nombre de la aplicación al archivo. Si no especificas estas dos cosas, no podrás desplegar de esta manera.
+
+```yaml
+#...
+org: 'ramzeis'
+app: 'ramzeis-store'
+service: ramzeis-store
+frameworkVersion: '3'
+#...
+```
+
+Ahora, necesitas iniciar sesión en tu cuenta de Serverless Dashboard, pero desde la CLI. En el mismo nivel de tu archivo `serverless.yml`, abre la línea de comandos y ejecuta `serverless login`.
+
+Después de ejecutar este comando, la CLI de Serverless abrirá tu navegador de preferencia y te pedirá que inicies sesión en el navegador. En el navegador, sigue los pasos hasta que hayas iniciado sesión. Una vez que hayas iniciado sesión, aparecerá un mensaje en la línea de comandos destacando que has iniciado sesión correctamente.
+
+> **Esta es la forma recomendada porque no necesitas tener almacenadas las credenciales de AWS localmente en tu máquina para que funcione este despliegue. El rol de IAM que se creó cuando creaste el proveedor en el panel generará nuevas credenciales de corta duración en cada despliegue automáticamente, y ni siquiera necesitarás darte cuenta. Además, si eliges esta forma, tendrás acceso a los secretos del panel**.
+
+Ahora estás listo para ejecutar `npm run deploy-all-dev`.
+
+### La forma no muy buena
+
+Este enfoque consiste en utilizar la AWS CLI para configurar credenciales locales a largo plazo (_aws_access_key_id_ y _aws_secret_access_key_), para que Serverless pueda utilizar esas claves de credenciales y desplegar tus recursos en tu cuenta de AWS al ejecutar `serverless deploy`.
+
+Ya sea que crees un nuevo usuario con acceso de administrador (permisos para hacer todo en AWS) o uses tu usuario raíz (no recomendado) para generar credenciales a largo plazo. Necesitarás obtener tanto el _aws_access_key_id_ como el _aws_secret_access_key_.
+
+Una vez que tengas esas 2 claves, ve al archivo `credentials` de tu AWS CLI e inserta una nueva entrada como en el siguiente ejemplo (asumiendo que el usuario del que obtuviste las credenciales se llama `example-user`)
+
+```ini
+[example-user]
+aws_access_key_id=SOMETHING
+aws_secret_access_key=SOMETHING
+```
+
+Ahora ve al archivo `config` de tu AWS CLI e inserta una entrada para ese mismo usuario, pero colocando la cadena "profile" antes del nombre del usuario. También necesitas especificar la región.
+
+```ini
+[profile example-user]
+region=us-east-1
+```
+
+> Si no sabes dónde encontrar esos archivos de credenciales, ten en cuenta que los archivos `credentials` y `config` se encuentran en `~/.aws/` en Linux o macOS, o en `C:\Users\NOMBRE_DE_USUARIO\.aws\` en Windows. Si no puedes encontrarlos, puede ser porque no has configurado ninguna credencial en tu máquina, así que busca un tutorial en línea sobre cómo configurar credenciales usando la AWS CLI.
+
+Before starting a deployment you need to tell the Serverless Framework which profile of the ones you have on your `config` file is going to be used. Go to the `serverless.yml` file and add the `profile` prop with a value of `example-user`
+
+```yaml
+#...
+provider:
+  name: aws
+  profile: 'example-user'
+  runtime: nodejs18.x
+  environment:
+    DYNAMODB_MAIN_TABLE_NAME: 'store-${sls:stage}-main-table'
+#...
+```
+
+Ahora estás listo para ejecutar `npm run deploy-all-dev`.
