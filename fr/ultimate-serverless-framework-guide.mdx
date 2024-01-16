@@ -4,7 +4,7 @@ description: 'Vous voulez avoir une infrastructure entièrement sans serveur fon
 date: '2024-01-14'
 author: 'Daniel Ramírez'
 attributionLink: 'https://www.linkedin.com/in/daniel-ramírez-molina-6465a1211'
-coverImageSrc: 'https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/icon-fonts-benefits-on-svg/cover.jpg'
+coverImageSrc: 'https://raw.githubusercontent.com/Dacaramo/my-blog-posts/master/images/ultimate-serverless-framework-guide/cover.png'
 tags:
   [
     'serverless',
@@ -79,14 +79,14 @@ Après avoir exécuté la commande, vous serez invité à répondre à quelques 
 Choisissez le modèle `AWS - Node.js - Starter`.
 
 <CustomImage
-  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/definitive-serverless-framework/chooseStarterTemplate.png'
+  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/ultimate-serverless-framework-guide/chooseStarterTemplate.png'
   alt='Choisissez le modèle AWS - Node.js - Starter'
 />
 
 Choisissez un nom de service pour votre service, choisissez `ramzeis-store`.
 
 <CustomImage
-  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/definitive-serverless-framework/chooseServiceName.png'
+  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/ultimate-serverless-framework-guide/chooseServiceName.png'
   alt='Choisissez un nom de service pour votre service'
 />
 
@@ -95,21 +95,21 @@ Si vous êtes actuellement connecté avec votre compte Serverless Dashboard, il 
 Si c'est votre première utilisation du Serverless Framework et que vous n'êtes pas connecté, le flux vous demandera de vous connecter ou de vous inscrire à un compte Serverless Dashboard. Dans ce cas, ne vous inscrivez ni ne vous connectez.
 
 <CustomImage
-  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/definitive-serverless-framework/linkServiceToOrg.png'
+  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/ultimate-serverless-framework-guide/linkServiceToOrg.png'
   alt="N'associez pas votre service à une organisation, choisissez 'skip'"
 />
 
 Ne déployez pas maintenant.
 
 <CustomImage
-  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/definitive-serverless-framework/chooseToDeployNow.png'
+  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/ultimate-serverless-framework-guide/chooseToDeployNow.png'
   alt='Ne déployez pas maintenant'
 />
 
 Une fois le processus terminé, vous obtiendrez une structure de fichiers qui ressemble à ceci:
 
 <CustomImage
-  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/definitive-serverless-framework/fileStructure.png'
+  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/ultimate-serverless-framework-guide/fileStructure.png'
   alt='Structure des fichiers'
 />
 
@@ -422,28 +422,28 @@ Allez sur le [site web du Serverless Framework](https://www.serverless.com/) et 
 Une fois que vous avez créé votre compte, allez dans le coin inférieur gauche, cliquez sur votre photo de profil et créez une organisation, appelons-la **ramzeis**!
 
 <CustomImage
-  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/definitive-serverless-framework/createOrg.png'
+  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/ultimate-serverless-framework-guide/createOrg.png'
   alt='Créer une organisation'
 />
 
 Maintenant, créez une application tout en étant dans l'organisation que vous venez de créer, appelons-la **ramzeis-store**!
 
 <CustomImage
-  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/definitive-serverless-framework/createApplication.png'
+  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/ultimate-serverless-framework-guide/createApplication.png'
   alt='Créer une application'
 />
 
 Maintenant, créez un service à l'intérieur de l'application que vous venez de créer, appelons-le **ramzeis-store**!
 
 <CustomImage
-  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/definitive-serverless-framework/createService.png'
+  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/ultimate-serverless-framework-guide/createService.png'
   alt='Créer un service'
 />
 
 Maintenant, créez autant d'étapes que vous en avez dans votre fichier `serverless.yml`. Dans notre cas, nous en avons 3 : dev, stag et prod, créons-les avec exactement les mêmes noms.
 
 <CustomImage
-  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/definitive-serverless-framework/createStage.png'
+  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/ultimate-serverless-framework-guide/createStage.png'
   alt='Créer les 3 étapes'
 />
 
@@ -463,14 +463,14 @@ Pour créer les secrets sur votre Serverless Dashboard, vous avez deux options:
 Pour créer des secrets au niveau du service, vous devez accéder aux paramètres du service
 
 <CustomImage
-  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/definitive-serverless-framework/serviceSettings.png'
+  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/ultimate-serverless-framework-guide/serviceSettings.png'
   alt='Accédez aux paramètres du service'
 />
 
 Accédez à l'onglet Paramètres et attribuez un nom et une valeur au secret. Ici, nous allons créer le secret `random-api-key`:
 
 <CustomImage
-  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/definitive-serverless-framework/addServiceLevelSecret.png'
+  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/ultimate-serverless-framework-guide/addServiceLevelSecret.png'
   alt="Accédez à l'onglet Paramètres, attribuez un nom et une valeur, puis cliquez sur 'add'"
 />
 
@@ -515,14 +515,14 @@ Ces commandes vous permettront de déployer une fois que vous aurez terminé ce 
 Tout d'abord, vous devez créer un fournisseur sur votre Serverless Dashboard. Cliquez sur les trois points à droite de votre service et cliquez sur Paramètres.
 
 <CustomImage
-  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/definitive-serverless-framework/serviceSettings.png'
+  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/ultimate-serverless-framework-guide/serviceSettings.png'
   alt='Accédez aux paramètres du service'
 />
 
 Sur l'onglet Fournisseurs, cliquez sur Ajouter et choisissez l'option simple, ne spécifiez pas de nom, cochez la case Make this my new default provider et cliquez sur **Connect AWS provider**.
 
 <CustomImage
-  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/definitive-serverless-framework/addProvider.png'
+  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/ultimate-serverless-framework-guide/addProvider.png'
   alt="Accédez à l'onglet Paramètres et cliquez sur 'add'"
 />
 
