@@ -18,19 +18,19 @@ tags:
   ]
 ---
 
-## Table of contents
+## table des matières
 
-- [Qu'est-ce que le Serverless Framework?](#qu-est-ce-que-le-serverless-framework)
+- [Qu'est-ce que le Serverless Framework?](#quest-ce-que-le-serverless-framework)
 - [Les avantages du Serverless Framework](#les-avantages-du-serverless-framework)
 - [Quelques termes pertinents du Serverless Framework](#quelques-termes-pertinents-du-serverless-framework)
 - [Installer serverless](#installer-serverless)
-- [Créer un service](#creer-un-service)
-- [Activer TypeScript et installer d'autres modules nécessaires](#activer-typescript-et-installer-dautres-modules-necessaires)
-- [Définir un schéma JSON pour valider le corps de la demande](#definir-un-schema-json-pour-valider-le-corps-de-la-demande)
-- [Stocker des secrets à distance et les utiliser dans votre code gratuitement](#stocker-des-secrets-a-distance-et-les-utiliser-dans-votre-code-gratuitement)
-- [Déployer vos serverless functions et autres ressources cloud](#deployer-vos-serverless-functions-et-autres-ressources-cloud)
-  - [La manière recommandée](#la-maniere-recommandee)
-  - [La manière moins bonne](#la-maniere-moins-bonne)
+- [Créer un service](#créer-un-service)
+- [Activer TypeScript et installer d'autres modules nécessaires](#activer-typescript-et-installer-dautres-modules-nécessaires)
+- [Définir un schéma JSON pour valider le corps de la requête](#définir-un-schéma-json-pour-valider-le-corps-de-la-requête)
+- [Stocker des secrets à distance et les utiliser dans votre code gratuitement](#stocker-des-secrets-à-distance-et-les-utiliser-dans-votre-code-gratuitement)
+- [Déployer vos serverless functions et autres ressources cloud](#déployer-vos-serverless-functions-et-autres-ressources-cloud)
+  - [La manière recommandée](#la-manière-recommandée)
+  - [La manière moins bonne](#la-manière-moins-bonne)
 
 ## Qu'est-ce que le Serverless Framework?
 
@@ -366,7 +366,7 @@ functions:
         Resource: ${param:dynamo-db-main-table-arn}
 ```
 
-## Définir un schéma JSON pour valider le corps de la demande
+## Définir un schéma JSON pour valider le corps de la requête
 
 Le Serverless Framework et AWS API Gateway vous permettent de spécifier des schémas JSON pour valider le corps de la requête des requêtes POST. **Gardez à l'esprit que vous ne pouvez le faire que pour les requêtes POST**.
 

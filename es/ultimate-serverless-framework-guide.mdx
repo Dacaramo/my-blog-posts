@@ -18,16 +18,16 @@ tags:
   ]
 ---
 
-## Table of contents
+## Tabla de contenido
 
-- [¿Qué es Serverless Framework?](#que-es-serverless-framework)
+- [¿Qué es Serverless Framework?](#qué-es-serverless-framework)
 - [Ventajas de Serverless Framework](#ventajas-de-serverless-framework)
-- [Algunos términos relevantes de Serverless Framework](#algunos-terminos-relevantes-de-serverless-framework)
+- [Algunos términos relevantes de Serverless Framework](#algunos-términos-relevantes-de-serverless-framework)
 - [Instalar serverless](#instalar-serverless)
 - [Crear un servicio](#crear-un-servicio)
-- [Habilitar TypeScript e instalar otros módulos necesarios](#habilitar-typescript-e-instalar-otros-modulos-necesarios)
+- [Habilitar TypeScript e instalar otros módulos necesarios](#habilitar-typescript-e-instalar-otros-módulos-necesarios)
 - [Definir un esquema JSON para validar el request body de la solicitud](#definir-un-esquema-json-para-validar-el-request-body-de-la-solicitud)
-- [Almacenar secretos de forma remota y usarlos en tu código de forma gratuita](#almacenar-secretos-de-forma-remota-y-usarlos-en-tu-codigo-de-forma-gratuita)
+- [Almacenar secretos de forma remota y usarlos en tu código de forma gratuita](#almacenar-secretos-de-forma-remota-y-usarlos-en-tu-código-de-forma-gratuita)
 - [Desplegar tus serverless functions y otros recursos en la nube](#desplegar-tus-serverless-functions-y-otros-recursos-en-la-nube)
   - [La forma recomendada](#la-forma-recomendada)
   - [La forma no muy buena](#la-forma-no-muy-buena)
@@ -36,7 +36,7 @@ tags:
 
 Serverless Framework es una herramienta de línea de comandos (CLI) que se integra con tu proveedor de servicios en la nube favorito para automatizar la creación de tus recursos en la nube. Serverless funciona de manera excepcional con funciones sin servidor como las funciones de AWS Lambda, Google Cloud Functions y Azure Functions, pero también te permite crear y gestionar automáticamente cualquier tipo de recurso en la nube, no solo funciones sin servidor. Puedes permitir que Serverless administre tus tablas de AWS DynamoDB, tus buckets de AWS S3, y así sucesivamente.
 
-Ten en cuenta que toda la magia detrás del Marco sin servidor es simplemente infraestructura como código, y es muy probable que también puedas hacer lo que hace el Marco sin servidor con un servicio nativo de tu proveedor de servicios en la nube, como CloudFormation.
+Ten en cuenta que toda la magia detrás del Serverless Framework es simplemente infraestructura como código, y es muy probable que también puedas hacer lo que hace Serverless Framework con un servicio nativo de tu proveedor de servicios en la nube, como CloudFormation.
 
 La diferencia entre Serverless y esos servicios nativos de infraestructura como código es que Serverless es como 100 veces más fácil de entender y manejar que cosas como CloudFormation. CloudFormation es una herramienta diseñada para ser utilizada por personas realmente experimentadas.
 
@@ -52,7 +52,7 @@ La diferencia entre Serverless y esos servicios nativos de infraestructura como 
 - No generará un montón de código base y archivos extraños que nadie entiende, como hace AWS Amplify
 - Tiene más de 1000 plugins que te permitirán:
   - Ejecutar tus funciones sin servidor y probar tu API localmente antes de implementarla
-  - Utilizar tu marco de backend preferido, como Express.js, para desarrollar todos tus puntos finales de API
+  - Utilizar tu framework de backend preferido, como Express.js, para desarrollar todos tus puntos finales de API
   - Generar automáticamente documentación OpenAPI de forma transparente para tu API
   - Y mucho más
 - Eres libre de estructurar tu código, archivos y carpetas como desees en tu editor de código preferido
@@ -90,9 +90,9 @@ Elige un nombre de servicio para tu aplicación, vamos a elegir **ramzeis-store*
   alt='Elige un nombre de servicio para tu aplicación'
 />
 
-Si actualmente has iniciado sesión con tu cuenta de Serverless Dashboard, es posible que se te haga la pregunta que se muestra en la imagen a continuación. Selecciona [Skip], aquí te enseñaré cómo vincular **MANUALMENTE** tu cuenta de Serverless Dashboard con tus implementaciones para que, si alguna vez te pierdes, sepas cómo avanzar.
+Si actualmente has iniciado sesión con tu cuenta de Serverless Dashboard, es posible que se te haga la pregunta que se muestra en la imagen a continuación. Selecciona [Skip], aquí te enseñaré cómo vincular **MANUALMENTE** tu cuenta de Serverless Dashboard con tus despliegues para que, si alguna vez te pierdes, sepas cómo avanzar.
 
-Si es la primera vez que usas el Marco sin servidor (Serverless Framework) y no has iniciado sesión, entonces el flujo te pedirá que inicies sesión o te registres para obtener una cuenta en el Serverless Dashboard. Si este es el caso, no te registres ni inicies sesión.
+Si es la primera vez que usas el Serverless Framework y no has iniciado sesión, entonces el flujo te pedirá que inicies sesión o te registres para obtener una cuenta en el Serverless Dashboard. Si este es el caso, no te registres ni inicies sesión.
 
 <CustomImage
   src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/ultimate-serverless-framework-guide/linkServiceToOrg.png'
@@ -496,7 +496,7 @@ Una vez que hayas definido esa variable de entorno en tu archivo `serverless.yml
 
 ## Desplegar tus serverless functions y otros recursos en la nube
 
-Antes de continuar y elegir el método de implementación, agrega los siguientes comandos de script a tu package.json:
+Antes de continuar y elegir el método de despliegue, agrega los siguientes comandos de script a tu package.json:
 
 ```json
 {
@@ -570,7 +570,7 @@ region=us-east-1
 
 > Si no sabes dónde encontrar esos archivos de credenciales, ten en cuenta que los archivos `credentials` y `config` se encuentran en `~/.aws/` en Linux o macOS, o en `C:\Users\NOMBRE_DE_USUARIO\.aws\` en Windows. Si no puedes encontrarlos, puede ser porque no has configurado ninguna credencial en tu máquina, así que busca un tutorial en línea sobre cómo configurar credenciales usando la AWS CLI.
 
-Before starting a deployment you need to tell the Serverless Framework which profile of the ones you have on your `config` file is going to be used. Go to the `serverless.yml` file and add the `profile` prop with a value of `example-user`
+Antes de comenzar un despliegue, debe indicarle a Serverless Framework qué perfil de los que tiene en su archivo `config` se utilizará. Vaya al archivo `serverless.yml` y agregue la propiedad `profile` con un valor de `example-user`
 
 ```yaml
 #...
