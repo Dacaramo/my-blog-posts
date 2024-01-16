@@ -86,7 +86,7 @@ Elige la plantilla **AWS - Node.js - Starter**.
 Elige un nombre de servicio para tu aplicación, vamos a elegir **ramzeis-store**
 
 <CustomImage
-  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/definitive-serverless-framework/chooseServiceName.png'
+  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/ultimate-serverless-framework-guide/chooseServiceName.png'
   alt='Elige un nombre de servicio para tu aplicación'
 />
 
@@ -95,21 +95,21 @@ Si actualmente has iniciado sesión con tu cuenta de Serverless Dashboard, es po
 Si es la primera vez que usas el Marco sin servidor (Serverless Framework) y no has iniciado sesión, entonces el flujo te pedirá que inicies sesión o te registres para obtener una cuenta en el Serverless Dashboard. Si este es el caso, no te registres ni inicies sesión.
 
 <CustomImage
-  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/definitive-serverless-framework/linkServiceToOrg.png'
+  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/ultimate-serverless-framework-guide/linkServiceToOrg.png'
   alt='No vincules tu servicio a una organización, elige omitir'
 />
 
 No despliegues ahora.
 
 <CustomImage
-  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/definitive-serverless-framework/chooseToDeployNow.png'
+  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/ultimate-serverless-framework-guide/chooseToDeployNow.png'
   alt='No despliegues ahora'
 />
 
 Después de completar todo el proceso, obtendrás una estructura de archivos que se ve así:
 
 <CustomImage
-  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/definitive-serverless-framework/fileStructure.png'
+  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/ultimate-serverless-framework-guide/fileStructure.png'
   alt='Estructura de archivos'
 />
 
@@ -422,28 +422,28 @@ Ve al [sitio web de Serverless Framework](https://www.serverless.com/) Serverles
 Una vez que hayas creado tu cuenta, ve a la esquina inferior izquierda, haz clic en tu foto de perfil y crea una organización, ¡llamémosla **ramzeis**!
 
 <CustomImage
-  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/definitive-serverless-framework/createOrg.png'
+  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/ultimate-serverless-framework-guide/createOrg.png'
   alt='Crear una organización'
 />
 
 Ahora crea una aplicación estando en la organización que acabas de crear, ¡llamémosla **ramzeis-store**!
 
 <CustomImage
-  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/definitive-serverless-framework/createApplication.png'
+  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/ultimate-serverless-framework-guide/createApplication.png'
   alt='Crear una aplicación'
 />
 
 Ahora crea un servicio dentro de la aplicación que acabas de crear, ¡llamémoslo **ramzeis-store**!
 
 <CustomImage
-  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/definitive-serverless-framework/createService.png'
+  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/ultimate-serverless-framework-guide/createService.png'
   alt='Crear un servicio'
 />
 
 Ahora crea tantas etapas como tengas en tu archivo `serverless.yml`. En nuestro caso, tenemos 3: dev, stag y prod, creémoslas con los nombres exactos.
 
 <CustomImage
-  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/definitive-serverless-framework/createStage.png'
+  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/ultimate-serverless-framework-guide/createStage.png'
   alt='Crear las 3 etapas'
 />
 
@@ -463,14 +463,14 @@ Para crear los secretos en tu dashboard, tienes 2 opciones:
 Para crear secretos a nivel de servicio, debes ir a la configuración del servicio
 
 <CustomImage
-  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/definitive-serverless-framework/serviceSettings.png'
+  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/ultimate-serverless-framework-guide/serviceSettings.png'
   alt='Ir a la configuración del servicio'
 />
 
 Ve a la pestaña Parameters y asigna un nombre y un valor para el secreto. Aquí crearemos el secreto `random-api-key`:
 
 <CustomImage
-  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/definitive-serverless-framework/addServiceLevelSecret.png'
+  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/ultimate-serverless-framework-guide/addServiceLevelSecret.png'
   alt='Ve a la pestaña Parameters, asigna nombre y valor y haz clic en agregar'
 />
 
@@ -515,14 +515,14 @@ Estos comandos te permitirán desplegar una vez que hayas completado lo que vien
 Primero, necesitas crear un proveedor en tu Serverless Dashboard. Haz clic en los tres puntos a la derecha de tu servicio y selecciona "settings".
 
 <CustomImage
-  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/definitive-serverless-framework/serviceSettings.png'
+  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/ultimate-serverless-framework-guide/serviceSettings.png'
   alt='Ir a la configuración del servicio'
 />
 
 En la pestaña Providers, haz clic en "add" y elige la opción simple. No especifiques un nombre, marca la casilla "Make this my new default provider" y haz clic en "Connect AWS provider".
 
 <CustomImage
-  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/definitive-serverless-framework/addProvider.png'
+  src='https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/ultimate-serverless-framework-guide/addProvider.png'
   alt='Ir a la pestaña Parámetros y hacer clic en agregar'
 />
 
