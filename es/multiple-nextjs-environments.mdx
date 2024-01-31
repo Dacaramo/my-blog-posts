@@ -1,0 +1,78 @@
+---
+title: 'Cómo manejar múltiples entornos en Next.js'
+description: 'Next.js solo permite tener 2 entornos: development y production, aunque muy seguramente tu necesitas más que eso, aquí vas a aprender a manejar tantos entornos como quieras en Next.js siguendo la misma convención de archivos .env que por defecto se usa en Next.js.'
+date: '2024-01-31'
+author: 'Daniel Ramírez'
+attributionLink: 'https://www.linkedin.com/in/daniel-ramírez-molina-6465a1211'
+coverImageSrc: 'https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/multiple-nextjs-environments/cover.png'
+tags: ['nextjs', 'frontend', 'environments', 'stages', 'env']
+lastModified: '2024-01-31'
+---
+
+## Qué es lo que Next.js permite actualmente
+
+En Next.js puedes tener solo un entorno de desarrollo y uno de producción. Pero si necesitas más que eso, estás atrapado. Para configurar las variables de entorno para cada uno de esos entornos, necesitas crear los siguientes 2 archivos en la raíz de tu proyecto (fuera de la carpeta `/app`):
+
+- `.env.development` para el entorno de desarrollo
+- `.env.production` para el entorno de producción
+
+Los valores de las variables de entorno dentro de `.env.development` se utilizarán al ejecutar la aplicación con el comando `next dev`.
+
+Los valores de las variables de entorno dentro de `.env.production` se utilizarán al ejecutar la aplicación con el comando `next start`.
+
+> Si además utilizas el archivo `.env.local`, entonces todas las variables de entorno se tomarán de este archivo específico en su lugar.
+
+## Cómo tener tantos entornos como quieras
+
+Digamos que queremos entornos de desarrollo (dev), preparación (stag) y producción (prod).
+
+Primero, crea en la raíz de tu proyecto (fuera de la carpeta `/app`) una carpeta llamada `/env`. Dentro de `/env`, crea los siguientes archivos:
+
+- `.env.dev` para colocar tus variables del entorno dev
+- `.env.stag` para colocar tus variables del entorno stag
+- `.env.prod` para colocar tus variables del entorno prod
+
+Añade las variables de entorno a `.env.dev`:
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:9000
+SECRET_API_KEY=my-development-secret-key
+```
+
+Añade las variables de entorno a `.env.stag`:
+
+```env
+NEXT_PUBLIC_API_URL=http://www.staging.myapi.com/api
+SECRET_API_KEY=my-staging-secret-key
+```
+
+Añade las variables de entorno a `.env.prod`:
+
+```env
+NEXT_PUBLIC_API_URL=http://www.production.myapi.com/api
+SECRET_API_KEY=my-production-secret-key
+```
+
+Recuerda que todas las variables precedidas por el prefijo `NEXT_PUBLIC` estarán disponibles en tu paquete de aplicaciones y podrán utilizarse en el cliente. Esto es útil, pero solo para variables que no son secretos. En los ejemplos de código anteriores, `NEXT_PUBLIC_API_URL` se puede acceder tanto en componentes del cliente como en componentes del servidor mediante process.env.`NEXT_PUBLIC_API_URL`, pero `SECRET_API_KEY` solo estará disponible en componentes del servidor mediante `process.env.SECRET_API_KEY`.
+
+> No olvides agregar la carpeta `/env` al archivo `.gitignore`, ya que no queremos subir esos archivos a nuestro repositorio.
+
+Ahora, instala el módulo `env-cmd` ejecutando `npm i env-cmd`. Este módulo nos permitirá extraer las variables de nuestros archivos personalizados y usarlas de la misma manera que lo hace Next.js.
+
+Agrega los siguientes comandos de script a tu archivo `package.json`:
+
+```json
+{
+  "scripts": {
+    "development": "env-cmd -f ./env/.env.dev next dev",
+    "staging": "env-cmd -f ./env/.env.stag next dev",
+    "production": "env-cmd -f ./env/.env.prod next start"
+  }
+}
+```
+
+¡Ahora estás listo para comenzar! Solo recuerda ejecutar:
+
+- `npm run development` para ejecutar la aplicación dev
+- `npm run staging` para ejecutar la aplicación stag
+- `npm run production` para ejecutar la aplicación prod

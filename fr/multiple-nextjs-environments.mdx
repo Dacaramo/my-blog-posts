@@ -1,0 +1,78 @@
+---
+title: 'Comment gérer plusieurs environnements dans Next.js'
+description: "Next.js ne permet que d'avoir deux environnements : développement et production, mais il est possible que vous en avez besoin de plus que cela. Ici, vous apprendrez comment gérer autant d'environnements que vous le souhaitez dans Next.js en suivant la même convention de fichier .env qu'ils utilisent."
+date: '2024-01-31'
+author: 'Daniel Ramírez'
+attributionLink: 'https://www.linkedin.com/in/daniel-ramírez-molina-6465a1211'
+coverImageSrc: 'https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/multiple-nextjs-environments/cover.png'
+tags: ['nextjs', 'frontend', 'environments', 'stages', 'env']
+lastModified: '2024-01-31'
+---
+
+## Ce que permet actuellement Next.js
+
+Avec Next.js, vous pouvez avoir des environnements de développement et de production. Mais si vous avez besoin de plus que cela, vous êtes bloqué. Pour configurer les variables d'environnement pour chacun de ces environnements, vous devez créer les 2 fichiers suivants à la racine de votre projet (en dehors du dossier `/app`):
+
+- `.env.development` pour l'environnement de développement
+- `.env.production` pour l'environnement de production
+
+Les valeurs des variables d'environnement à l'intérieur de `.env.development` seront utilisées lors de l'exécution de l'application avec la commande `next dev`.
+
+Les valeurs des variables d'environnement à l'intérieur de `.env.production` seront utilisées lors de l'exécution de l'application avec la commande `next start`.
+
+> Si en plus vous utilisez le fichier .env.local, alors toutes les variables d'environnement seront extraites de ce fichier spécifique à la place.
+
+## Comment avoir autant d'environnements que vous le souhaitez
+
+Supposons que nous voulons des environnements de développement (dev), de préparation (stag) et de production (prod).
+
+Tout d'abord, créez à la racine de votre projet (à l'extérieur du dossier `/app`) un dossier nommé `/env`. À l'intérieur de `/env`, créez les fichiers suivants :
+
+- `.env.dev` pour stocker vos variables d'environnement dev
+- `.env.stag` pour stocker vos variables d'environnement stag
+- `.env.prod` pour stocker vos variables d'environnement prod
+
+Ajoutez les variables d'environnement à votre fichier `.env.dev`:
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:9000
+SECRET_API_KEY=my-development-secret-key
+```
+
+Add env variables to your `.env.stag`:
+
+```env
+NEXT_PUBLIC_API_URL=http://www.staging.myapi.com/api
+SECRET_API_KEY=my-staging-secret-key
+```
+
+Add env variables to your `.env.prod`:
+
+```env
+NEXT_PUBLIC_API_URL=http://www.production.myapi.com/api
+SECRET_API_KEY=my-production-secret-key
+```
+
+N'oubliez pas que toutes les variables précédées du préfixe `NEXT_PUBLIC` sont disponibles dans votre ensemble d'applications et peuvent être utilisées côté client. C'est bien, mais uniquement pour les variables qui ne sont pas des secrets. Dans les exemples de code précédents, `NEXT_PUBLIC_API_URL` peut être accédé à la fois dans les composants côté client et côté serveur en utilisant `process.env.NEXT_PUBLIC_API_URL`, mais `SECRET_API_KEY` ne sera disponible que dans les composants côté serveur en utilisant `process.env.SECRET_API_KEY`.
+
+> N'oubliez pas d'ajouter le dossier `/env` au fichier `.gitignore`, car nous ne voulons pas pousser ces fichiers vers notre référentiel.
+
+Maintenant, installez le module `env-cmd` en exécutant `npm i env-cmd`. Ce module nous permettra d'extraire les variables de nos fichiers personnalisés et de les utiliser comme le fait Next.js.
+
+Ajoutez les commandes de script suivantes à votre fichier `package.json`:
+
+```json
+{
+  "scripts": {
+    "development": "env-cmd -f ./env/.env.dev next dev",
+    "staging": "env-cmd -f ./env/.env.stag next dev",
+    "production": "env-cmd -f ./env/.env.prod next start"
+  }
+}
+```
+
+Maintenant, vous êtes prêt à partir! N'oubliez pas d'exécuter:
+
+- `npm run development` pour lancer l'application dev
+- `npm run staging` pour lancer l'application stag
+- `npm run production` pour lancer l'application prod

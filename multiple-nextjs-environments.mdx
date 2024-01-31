@@ -1,0 +1,78 @@
+---
+title: 'How to handle multiple environments in Next.js'
+description: 'Next.js only allows to have 2 environments: development and production, but it is possible than you need more than that, here you will learn how to handle as many environments as you want in Next.js following the same .env file convention they use.'
+date: '2024-01-31'
+author: 'Daniel Ramírez'
+attributionLink: 'https://www.linkedin.com/in/daniel-ramírez-molina-6465a1211'
+coverImageSrc: 'https://raw.githubusercontent.com/dacaramo/my-blog-posts/master/images/multiple-nextjs-environments/cover.png'
+tags: ['nextjs', 'frontend', 'environments', 'stages', 'env']
+lastModified: '2024-01-31'
+---
+
+## What Next.js currently allows
+
+Out of the box with Next.js you can have development and production environments. But if you need more than that you're stuck. In order to configure the env variables for each of those environments you need to create the following 2 files at the root of your project (outside the `/app` folder):
+
+- `.env.development` for the development environment
+- `.env.production` for the production environment
+
+The env variables values inside `.env.development` will be used when running the app with the `next dev` command.
+
+The env variables values inside `.env.production` will be used when running the app with the `next start` command.
+
+> If in addition you use the `.env.local` file then all of the env variables will be pulled from this specific file instead.
+
+## How to have as many environments as you want
+
+Let's say we want dev (development), stag (staging) and prod (production) environments.
+
+First, create at the root of your project (outside the `/app` folder) a folder named `/env`. Inside `/env` create the following files:
+
+- `.env.dev` for putting your dev environment variables
+- `.env.stag` for putting your stag environment variables
+- `.env.prod` for putting your prod environment variables
+
+Add env variables to your `.env.dev`:
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:9000
+SECRET_API_KEY=my-development-secret-key
+```
+
+Add env variables to your `.env.stag`:
+
+```env
+NEXT_PUBLIC_API_URL=http://www.staging.myapi.com/api
+SECRET_API_KEY=my-staging-secret-key
+```
+
+Add env variables to your `.env.prod`:
+
+```env
+NEXT_PUBLIC_API_URL=http://www.production.myapi.com/api
+SECRET_API_KEY=my-production-secret-key
+```
+
+Remember that all of the variables that are preceded by the `NEXT_PUBLIC` prefix are available on you app bundle, they will be available to use on the client. That's nice, but only for variables that are not secrets. On the previous code samples, `NEXT_PUBLIC_API_URL` can be accessed both on client components and server components by using `process.env.NEXT_PUBLIC_API_URL`, but `SECRET_API_KEY` will only be available on server components by using `process.env.SECRET_API_KEY`.
+
+> Do not forget to add the `/env` folder to the `.gitignore` file, since we don't want to push those files to our repo.
+
+Now, go and install the `env-cmd` module by running `npm i env-cmd`. This module will allow us to pull the variables from our custom files and use them just like Next.js does.
+
+Add the following script commands to your `package.json` file:
+
+```json
+{
+  "scripts": {
+    "development": "env-cmd -f ./env/.env.dev next dev",
+    "staging": "env-cmd -f ./env/.env.stag next dev",
+    "production": "env-cmd -f ./env/.env.prod next start"
+  }
+}
+```
+
+Now you are ready to go! Just remember to run:
+
+- `npm run development` for running the dev app
+- `npm run staging` for running the staging app
+- `npm run production` for running the production app

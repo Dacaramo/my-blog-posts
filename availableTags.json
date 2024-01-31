@@ -17,7 +17,9 @@
     "ecommerce",
     "entrepreneurship",
     "investments",
-    "product"
+    "product",
+    "environments",
+    "stages"
   ],
   "Languages, libraries and tools": [
     "javascript",
@@ -31,7 +33,8 @@
     "git",
     "github",
     "eslint",
-    "husky"
+    "husky",
+    "env"
   ],
   "Frontend": [
     "reactjs",
